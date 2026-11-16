@@ -1,0 +1,13 @@
+# Apache (InfinityFree, Hostinger…): tipos corretos para módulos JS, manifest e WASM
+AddType text/javascript .js .mjs
+AddType application/manifest+json .webmanifest
+AddType application/wasm .wasm
+AddType image/svg+xml .svg
+<IfModule mod_headers.c>
+  <FilesMatch "sw\.js$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(js|css|png|svg|woff2)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>

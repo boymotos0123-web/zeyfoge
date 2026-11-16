@@ -1,0 +1,19 @@
+{
+  "name": "ZeyForge — CAD 3D de hardware",
+  "short_name": "ZeyForge",
+  "description": "CAD 3D profissional de hardware: placas, flats, conectores, render fotorrealista e BOM.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0e1115",
+  "theme_color": "#0e1115",
+  "lang": "pt-BR",
+  "categories": ["productivity", "utilities", "education"],
+  "file_handlers": [{ "action": "./index.html", "accept": { "application/x-zeyforge": [".zeyforge"] } }],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

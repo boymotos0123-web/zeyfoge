@@ -1,0 +1,60 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "ZeyForge",
+  "version": "0.2.0",
+  "identifier": "dev.zeylor.zeyforge",
+  "build": {
+    "beforeDevCommand": "npm run dev:native",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build:native",
+    "frontendDist": "../dist-native"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "ZeyForge",
+        "width": 1440,
+        "height": 900,
+        "minWidth": 960,
+        "minHeight": 600,
+        "center": true,
+        "dragDropEnabled": false,
+        "backgroundColor": "#0e1115"
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "GraphicsAndDesign",
+    "shortDescription": "CAD 3D profissional de hardware",
+    "longDescription": "ZeyForge: modelagem 3D de hardware com render fotorrealista, conexões de flat/FPC e fios validadas, importação GLB/STL/OBJ e lista de materiais com massa e custo.",
+    "copyright": "© 2026 Zeylor",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "fileAssociations": [
+      {
+        "ext": ["zeyforge"],
+        "name": "Projeto ZeyForge",
+        "description": "Projeto de hardware do ZeyForge",
+        "mimeType": "application/x-zeyforge",
+        "role": "Editor"
+      }
+    ],
+    "linux": {
+      "deb": { "depends": [] }
+    },
+    "windows": {
+      "webviewInstallMode": { "type": "downloadBootstrapper" }
+    }
+  }
+}

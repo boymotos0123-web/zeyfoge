@@ -1,0 +1,53 @@
+{
+  "name": "zeyforge",
+  "productName": "ZeyForge",
+  "version": "0.2.0",
+  "private": true,
+  "description": "ZeyForge — CAD 3D profissional de hardware (web, Windows, Linux, macOS, Android)",
+  "license": "MIT",
+  "author": "Zeylor",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --mode web",
+    "dev:native": "vite --mode native",
+    "build": "npm run build:web",
+    "build:web": "vite build --mode web",
+    "build:native": "vite build --mode native",
+    "preview": "vite preview --mode web",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm run test",
+    "tauri": "tauri",
+    "desktop:dev": "tauri dev",
+    "desktop:build": "tauri build",
+    "android:sync": "npm run build:native && cap sync android",
+    "android:open": "cap open android",
+    "android:apk": "npm run android:sync && cd android && ./gradlew assembleDebug",
+    "deploy:zip": "npm run build:web && node scripts/deploy-zip.mjs"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/filesystem": "^8.1.5",
+    "@capacitor/share": "^8.0.3",
+    "@preact/signals": "^2.11.4",
+    "@tauri-apps/api": "^2.12.5",
+    "@tauri-apps/plugin-dialog": "^2.8.4",
+    "@tauri-apps/plugin-fs": "^2.7.1",
+    "fflate": "^0.8.3",
+    "preact": "^11.2.0",
+    "three": "^0.187.0",
+    "three-bvh-csg": "^0.0.18",
+    "three-gpu-pathtracer": "^0.0.28",
+    "three-mesh-bvh": "^0.9.18"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
+    "@preact/preset-vite": "^2.10.6",
+    "@tauri-apps/cli": "^2.12.5",
+    "@types/three": "^0.187.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}
