@@ -68,7 +68,8 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - uses: android-actions/setup-android@v3
+      - name: Aceitar licenças do Android SDK (SDK já vem no runner)
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
       - run: npm ci
       - run: npm run build:native
       - run: npx cap sync android
