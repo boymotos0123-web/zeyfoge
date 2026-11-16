@@ -84,7 +84,7 @@ npm run dev          # http://localhost:5173 (web)
 | `npm run deploy:zip` | `zeyforge-web.zip` pronto para o InfinityFree |
 
 ### Instaladores automáticos (GitHub Actions)
-Crie uma tag e o GitHub compila tudo sozinho:
+No GitHub, abra **Actions → Release → Run workflow** (ou crie uma tag `v*`) e o GitHub compila tudo sozinho:
 ```bash
 git tag v0.2.0
 git push origin v0.2.0

@@ -1,6 +1,7 @@
 name: Release (Windows · Linux · macOS · Android · Web)
 
-# Crie uma tag para publicar:  git tag v0.2.0 && git push origin v0.2.0
+# Para gerar os instaladores: Actions → "Release" → Run workflow
+# (ou crie uma tag:  git tag v0.2.0 && git push origin v0.2.0). O rascunho aparece em Releases.
 on:
   push:
     tags: ['v*']
@@ -44,15 +45,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: ${{ github.ref_type == 'tag' && github.ref_name || format('v{0}', 'dev') }}
-          releaseName: 'ZeyForge ${{ github.ref_name }}'
+          tagName: v__VERSION__
+          releaseName: 'ZeyForge v__VERSION__'
           releaseBody: 'Instaladores para Windows (.msi/.exe), Linux (.deb/.AppImage/.rpm), macOS (.dmg) e Android (.apk). Versão web: zeyforge-web.zip.'
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
 
   android:
+    needs: desktop
+    if: always()
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -72,19 +77,25 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
-      - run: mv android/app/build/outputs/apk/debug/app-debug.apk ZeyForge-${{ github.ref_name }}-android.apk
+      - name: Versão
+        id: ver
+        run: echo "tag=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - run: mv android/app/build/outputs/apk/debug/app-debug.apk ZeyForge-${{ steps.ver.outputs.tag }}-android.apk
       - uses: actions/upload-artifact@v4
         with:
           name: zeyforge-android
           path: ZeyForge-*.apk
-      - uses: softprops/action-gh-release@v2
-        if: github.ref_type == 'tag'
-        with:
-          draft: true
-          files: ZeyForge-*.apk
+      - name: Anexar ao release
+        run: |
+          gh release view "${{ steps.ver.outputs.tag }}" >/dev/null 2>&1 || gh release create "${{ steps.ver.outputs.tag }}" --draft --title "ZeyForge ${{ steps.ver.outputs.tag }}" --target "${{ github.sha }}"
+          gh release upload "${{ steps.ver.outputs.tag }}" ZeyForge-*.apk --clobber
 
   web:
+    needs: desktop
+    if: always()
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -97,8 +108,8 @@ jobs:
         with:
           name: zeyforge-web-zip
           path: zeyforge-web.zip
-      - uses: softprops/action-gh-release@v2
-        if: github.ref_type == 'tag'
-        with:
-          draft: true
-          files: zeyforge-web.zip
+      - name: Anexar ao release
+        run: |
+          TAG="v$(node -p "require('./package.json').version")"
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --draft --title "ZeyForge $TAG" --target "${{ github.sha }}"
+          gh release upload "$TAG" zeyforge-web.zip --clobber
